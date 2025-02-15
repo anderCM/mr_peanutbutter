@@ -1,0 +1,12 @@
+# Errors code from documentation https://docs.coingecko.com/reference/common-errors-rate-limit
+coingecko_errors: &errors
+  400: "Invalid request: The server could not process your request."
+  401: "Unauthorized: Invalid authentication credentials."
+  403: "Forbidden: Access blocked by server."
+  429: "Rate limit exceeded: Please reduce API calls or upgrade your plan."
+  500: "Internal Server Error: The server encountered an unexpected issue."
+  503: "Service Unavailable."
+  1020: "Access Denied: CDN firewall rule violation."
+  10002: "API Key Missing: Invalid API key credentials."
+  10005: "Access Restricted: This endpoint requires a Pro API subscription."
+  default: "An unexpected error occurred."
