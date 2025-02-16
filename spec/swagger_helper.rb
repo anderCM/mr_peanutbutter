@@ -23,14 +23,8 @@ RSpec.configure do |config|
       },
       paths: {},
       servers: [
-        {
-          url: 'https://{defaultHost}',
-          variables: {
-            defaultHost: {
-              default: 'www.example.com'
-            }
-          }
-        }
+        { url: 'http://localhost:3000' },
+        { url: 'https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/' }
       ]
     }
   }

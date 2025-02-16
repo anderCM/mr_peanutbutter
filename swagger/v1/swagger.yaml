@@ -1,0 +1,57 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/prices":
+    get:
+      summary: Get crypto prices (only BTC for the moment)
+      tags:
+      - Prices
+      responses:
+        '200':
+          description: Prices returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bitcoin:
+                    type: object
+                    properties:
+                      usd:
+                        type: number
+                required:
+                - bitcoin
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+servers:
+- url: http://localhost:3000
+- url: https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/
