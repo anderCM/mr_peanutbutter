@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :prices, only: [ :index ]
+  post 'signup', to: 'registrations#create'
+  post 'login',  to: 'sessions#create'
 end
