@@ -52,6 +52,116 @@ paths:
                 required:
                 - error
                 - code
+  "/signup":
+    post:
+      summary: Register a new user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  first_name:
+                    type: string
+                    example: John
+                  last_name:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    format: email
+                    example: john.doe@example.com
+                  auth_token:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: abcdef123456
+                      refresh_token:
+                        type: string
+                        example: ghijkl789012
+                      expires_at:
+                        type: string
+                        format: date-time
+                        example: '2025-02-18T00:01:42.969Z'
+                      refresh_token_expires_at:
+                        type: string
+                        format: date-time
+                        example: '2025-02-25T00:01:42.969Z'
+                    required:
+                    - token
+                    - refresh_token
+                    - expires_at
+                    - refresh_token_expires_at
+                required:
+                - first_name
+                - last_name
+                - email
+                - auth_token
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              examples:
+                example_0:
+                  value:
+                    blank:
+                      summary: Blank fields error
+                      value:
+                        errors:
+                        - Email can't be blank
+                    taken:
+                      summary: Email already taken error
+                      value:
+                        errors:
+                        - Email has already been taken
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - errors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                      example: John
+                    last_name:
+                      type: string
+                      example: Doe
+                    email:
+                      type: string
+                      format: email
+                      example: john.doe@example.com
+                    password:
+                      type: string
+                      example: password
+                    password_confirmation:
+                      type: string
+                      example: password
+                  required:
+                  - first_name
+                  - last_name
+                  - email
+                  - password
+                  - password_confirmation
+              required:
+              - user
 servers:
 - url: http://localhost:3000
 - url: https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/
