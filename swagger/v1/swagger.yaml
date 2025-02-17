@@ -162,6 +162,68 @@ paths:
                   - password_confirmation
               required:
               - user
+  "/login":
+    post:
+      summary: Create a session
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
+                  auth_token:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      refresh_token:
+                        type: string
+                      expires_at:
+                        type: string
+                        format: date-time
+                      refresh_token_expires_at:
+                        type: string
+                        format: date-time
+                required:
+                - first_name
+                - last_name
+                - email
+                - auth_token
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
 servers:
 - url: http://localhost:3000
 - url: https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/
