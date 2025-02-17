@@ -1,5 +1,5 @@
 class CreatedUserSerializer < ActiveModel::Serializer
-  attributes :first_name, :last_name, :email
+  attributes :id, :first_name, :last_name, :email
 
   # Relation with AuthTokenSerializer
   has_one :auth_token, serializer: AuthTokenSerializer

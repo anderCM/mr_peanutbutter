@@ -22,6 +22,19 @@ RSpec.configure do |config|
         version: 'v1'
       },
       paths: {},
+      components: {
+        securitySchemes: {
+          bearer_auth: {
+            type: :apiKey,
+            in: :header,
+            name: 'Authorization',
+            description: 'Enter token: Bearer <token>'
+          }
+        }
+      },
+      security: [
+        { bearer_auth: [] }
+      ],
       servers: [
         { url: 'http://localhost:3000' },
         { url: 'https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/' }

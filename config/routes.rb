@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   resources :prices, only: [ :index ]
   post 'signup', to: 'registrations#create'
   post 'login',  to: 'sessions#create'
+
+  resources :users do
+    resources :wallets, only: [:index, :show]
+  end
 end

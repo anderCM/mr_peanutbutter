@@ -224,6 +224,71 @@ paths:
               required:
               - email
               - password
+  "/users/{user_id}/wallets":
+    get:
+      summary: Get user wallets
+      tags:
+      - Wallets
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: user_id
+        in: path
+        description: User id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Found wallets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    currency:
+                      type: string
+                    balance:
+                      type: number
+                  required:
+                  - id
+                  - currency
+                  - balance
+        '401':
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+components:
+  securitySchemes:
+    bearer_auth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Enter token: Bearer <token>'
+security:
+- bearer_auth: []
 servers:
 - url: http://localhost:3000
 - url: https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/
