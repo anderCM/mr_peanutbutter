@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   resources :prices, only: [ :index ]
   post 'signup', to: 'registrations#create'
+  post 'login',  to: 'sessions#create'
 end
