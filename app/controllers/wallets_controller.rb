@@ -1,6 +1,9 @@
 class WalletsController < ApplicationController
+  before_action :authorize_user
+
   def index
-    wallets = current_user.wallets
+    user = User.find(params[:user_id])
+    wallets = user.wallets
     render json: wallets, each_serializer: WalletSerializer
   end
 end

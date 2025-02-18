@@ -31,6 +31,16 @@ RSpec.describe 'Exchanges API', type: :request, swagger_doc: 'v1/swagger.yaml' d
         run_test!
       end
 
+      response '401', 'Unauthorized user' do
+        schema type: :object,
+          properties: {
+          error: { type: :string },
+        },
+        required: ['error']
+
+        run_test!
+      end
+
       response '422', 'Unprocessable Entity' do
         schema type: :object,
           properties: {
@@ -74,6 +84,16 @@ RSpec.describe 'Exchanges API', type: :request, swagger_doc: 'v1/swagger.yaml' d
         run_test!
       end
 
+      response '401', 'Unauthorized user' do
+        schema type: :object,
+          properties: {
+          error: { type: :string },
+        },
+        required: ['error']
+
+        run_test!
+      end
+
       response '404', 'Exchange not found' do
         schema type: :object,
           properties: {
@@ -105,6 +125,16 @@ RSpec.describe 'Exchanges API', type: :request, swagger_doc: 'v1/swagger.yaml' d
             },
             required: ['id', 'exchange_type', 'status']
           }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized user' do
+        schema type: :object,
+          properties: {
+          error: { type: :string },
+        },
+        required: ['error']
 
         run_test!
       end

@@ -34,6 +34,17 @@ paths:
                 - id
                 - exchange_type
                 - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
         '422':
           description: Unprocessable Entity
           content:
@@ -111,6 +122,17 @@ paths:
                 - id
                 - exchange_type
                 - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
         '404':
           description: Exchange not found
           content:
@@ -160,6 +182,17 @@ paths:
                   - id
                   - exchange_type
                   - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
   "/prices":
     get:
       summary: Get crypto prices (only BTC for the moment)
@@ -312,12 +345,16 @@ paths:
                     password_confirmation:
                       type: string
                       example: password
+                    admin:
+                      type: boolean
+                      example: true
                   required:
                   - first_name
                   - last_name
                   - email
                   - password
                   - password_confirmation
+                  - admin
               required:
               - user
   "/login":

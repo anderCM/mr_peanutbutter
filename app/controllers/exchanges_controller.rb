@@ -1,7 +1,10 @@
 class ExchangesController < ApplicationController
+  before_action :authorize_user
+
   def create
+    user = User.find(params[:user_id])
     service = Exchanges::ExchangesService.new(
-      user: current_user,
+      user: user,
       amount: exchange_params[:amount],
       sending_currency: exchange_params[:sending_currency],
       receiving_currency: exchange_params[:receiving_currency]
@@ -19,12 +22,14 @@ class ExchangesController < ApplicationController
   end
 
   def index
-    exchanges = current_user.exchanges
+    user = User.find(params[:user_id])
+    exchanges = user.exchanges
     render json: exchanges, each_serializer: ExchangeSerializer
   end
 
   def show
-    exchange = current_user.exchanges.find(params[:id])
+    user = User.find(params[:user_id])
+    exchange = user.exchanges.find(params[:id])
     render json: exchange, serializer: ExchangeSerializer, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Exchange not found" }, status: :not_found

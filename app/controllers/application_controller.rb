@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  include UserAuthorization
+
   # Validations
   before_action :authenticate_user_by_token
 
