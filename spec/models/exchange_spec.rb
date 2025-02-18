@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Exchange, type: :model do
   describe 'associations' do
     it { should belong_to(:user) }
-    it { should have_one(:wallet_exchange) }
+    it { should have_many(:wallet_exchanges) }
   end
  
   describe 'validations' do
