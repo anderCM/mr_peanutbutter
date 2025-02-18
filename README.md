@@ -1,4 +1,6 @@
 # Mr Peanutbutter API
+![Mr PeanutButter](https://static.wikia.nocookie.net/bojackhorseman/images/4/4b/Mr._Peanutbutter_casual.png/revision/latest?cb=20190314203721)
+
 
 A RESTful API developed with Ruby on Rails, providing crypto services using the [CoinGecko API](https://docs.coingecko.com/reference/introduction). This project uses Docker for easier development and deployment.
 
