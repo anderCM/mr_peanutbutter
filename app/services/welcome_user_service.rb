@@ -4,7 +4,7 @@ class WelcomeUserService
   # Welcome amounts for currencies
   WELCOME_AMOUNTS = {
     'usd' => 150000.0,
-    'btc' => 8.5
+    'bitcoin' => 8.5
   }.freeze
 
   def initialize(user)

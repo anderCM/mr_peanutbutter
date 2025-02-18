@@ -30,7 +30,7 @@ RSpec.describe WalletService, type: :service do
 
     context 'when wallet does not exist' do
       it 'creates a new wallet' do
-        new_currency = 'btc'
+        new_currency = 'bitcoin'
         service = WalletService.new(user_id: user.id, currency: new_currency)
 
         expect { service.create_wallet }.to change { Wallet.count }.by(1)

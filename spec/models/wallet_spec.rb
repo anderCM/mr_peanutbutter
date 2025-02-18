@@ -10,7 +10,7 @@ RSpec.describe Wallet, type: :model do
     it { should validate_presence_of(:currency) }
 
     it 'has valid currency enum values' do
-      expect(Wallet.currencies.keys).to match_array(%w[usd btc])
+      expect(Wallet.currencies.keys).to match_array(%w[usd bitcoin])
     end
   end
 end
