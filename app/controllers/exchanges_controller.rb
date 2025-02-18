@@ -18,6 +18,18 @@ class ExchangesController < ApplicationController
     end
   end
 
+  def index
+    exchanges = current_user.exchanges
+    render json: exchanges, each_serializer: ExchangeSerializer
+  end
+
+  def show
+    exchange = current_user.exchanges.find(params[:id])
+    render json: exchange, serializer: ExchangeSerializer, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Exchange not found" }, status: :not_found
+  end
+
   private
 
   def exchange_params
