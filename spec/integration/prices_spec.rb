@@ -5,6 +5,7 @@ RSpec.describe 'Prices API', type: :request, swagger_doc: 'v1/swagger.yaml' do
     get 'Get crypto prices (only BTC for the moment)' do
       tags 'Prices'
       produces 'application/json'
+      security []
 
       response '200', 'Prices returned' do
         schema type: :object,

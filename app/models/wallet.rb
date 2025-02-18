@@ -1,7 +1,7 @@
 class Wallet < ApplicationRecord
   # Associations
   belongs_to :user
-  has_many :wallet_exchanges
+  has_many :wallet_exchanges, dependent: :destroy
 
   # Validations
   validates :currency, presence: true
@@ -9,6 +9,6 @@ class Wallet < ApplicationRecord
   # This can be changed or removed according to requirements
   enum currency: {
     usd: 'usd',
-    btc: 'btc'
+    bitcoin: 'bitcoin'
   }
 end

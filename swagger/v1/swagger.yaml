@@ -4,11 +4,83 @@ info:
   title: API V1
   version: v1
 paths:
+  "/users/{user_id}/exchange":
+    post:
+      summary: Creates an exchange transaction
+      tags:
+      - Exchanges
+      parameters: []
+      responses:
+        '200':
+          description: Exchange transaction created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  exchange_type:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - id
+                - exchange_type
+                - status
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 1000
+                sending_currency:
+                  type: string
+                  example: usd
+                receiving_currency:
+                  type: string
+                  example: bitcoin
+              required:
+              - amount
+              - sending_currency
+              - receiving_currency
   "/prices":
     get:
       summary: Get crypto prices (only BTC for the moment)
       tags:
       - Prices
+      security: []
       responses:
         '200':
           description: Prices returned
@@ -57,6 +129,7 @@ paths:
       summary: Register a new user
       tags:
       - Authentication
+      security: []
       parameters: []
       responses:
         '201':
@@ -167,6 +240,7 @@ paths:
       summary: Create a session
       tags:
       - Sessions
+      security: []
       parameters: []
       responses:
         '200':

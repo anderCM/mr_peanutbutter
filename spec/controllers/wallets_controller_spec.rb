@@ -1,11 +1,10 @@
-# spec/controllers/wallets_controller_spec.rb
 require 'rails_helper'
 
 RSpec.describe WalletsController, type: :controller do
   let(:user) { create(:user) }
   let(:auth_token) { create(:auth_token, user: user) }
   let!(:wallet1) { create(:wallet, user: user, currency: 'usd', balance: 100) }
-  let!(:wallet2) { create(:wallet, user: user, currency: 'btc', balance: 50) }
+  let!(:wallet2) { create(:wallet, user: user, currency: 'bitcoin', balance: 50) }
 
   describe "GET #index" do
     context "when valid token is provided" do
