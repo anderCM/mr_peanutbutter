@@ -6,6 +6,7 @@ RSpec.describe 'Registrations API', type: :request, swagger_doc: 'v1/swagger.yam
       tags 'Authentication'
       consumes 'application/json'
       produces 'application/json'
+      security []
 
       parameter name: :user, in: :body, schema: {
         type: :object,
@@ -17,9 +18,10 @@ RSpec.describe 'Registrations API', type: :request, swagger_doc: 'v1/swagger.yam
               last_name: { type: :string, example: 'Doe' },
               email: { type: :string, format: :email, example: 'john.doe@example.com' },
               password: { type: :string, example: 'password' },
-              password_confirmation: { type: :string, example: 'password' }
+              password_confirmation: { type: :string, example: 'password' },
+              admin: {type: :boolean, example: true}
             },
-            required: %w[first_name last_name email password password_confirmation]
+            required: %w[first_name last_name email password password_confirmation admin]
           }
         },
         required: ['user']

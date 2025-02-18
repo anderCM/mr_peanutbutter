@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  include UserAuthorization
+
   # Validations
   before_action :authenticate_user_by_token
 
@@ -39,5 +41,9 @@ class ApplicationController < ActionController::API
 
   def render_unauthorized(message)
     render json: { error: message }, status: :unauthorized and return
+  end
+
+  def current_user
+    @current_user
   end
 end

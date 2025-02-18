@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
     if user.save
       auth_token_service = AuthTokenService.new(user).generate_tokens
       user.current_auth_token = auth_token_service
+      WelcomeUserService.new(user).process
 
       render json: CreatedUserSerializer.new(user).as_json, status: :created
     else
@@ -17,6 +18,6 @@ class RegistrationsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :admin)
   end
 end

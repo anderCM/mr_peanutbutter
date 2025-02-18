@@ -4,11 +4,201 @@ info:
   title: API V1
   version: v1
 paths:
+  "/users/{user_id}/exchange":
+    post:
+      summary: Creates an exchange transaction
+      tags:
+      - Exchanges
+      parameters:
+      - name: user_id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Exchange transaction created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  exchange_type:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - id
+                - exchange_type
+                - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: integer
+                required:
+                - error
+                - code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 1000
+                sending_currency:
+                  type: string
+                  example: usd
+                receiving_currency:
+                  type: string
+                  example: bitcoin
+              required:
+              - amount
+              - sending_currency
+              - receiving_currency
+  "/users/{user_id}/exchanges/":
+    get:
+      summary: Retrieves a specific exchange
+      tags:
+      - Exchanges
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Exchange found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  exchange_type:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - id
+                - exchange_type
+                - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '404':
+          description: Exchange not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/users/{user_id}/exchanges/{id}":
+    get:
+      summary: Lists all exchanges for a user
+      tags:
+      - Exchanges
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Exchange ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Exchanges retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    exchange_type:
+                      type: string
+                    status:
+                      type: string
+                  required:
+                  - id
+                  - exchange_type
+                  - status
+        '401':
+          description: Unauthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
   "/prices":
     get:
       summary: Get crypto prices (only BTC for the moment)
       tags:
       - Prices
+      security: []
       responses:
         '200':
           description: Prices returned
@@ -57,6 +247,7 @@ paths:
       summary: Register a new user
       tags:
       - Authentication
+      security: []
       parameters: []
       responses:
         '201':
@@ -154,12 +345,16 @@ paths:
                     password_confirmation:
                       type: string
                       example: password
+                    admin:
+                      type: boolean
+                      example: true
                   required:
                   - first_name
                   - last_name
                   - email
                   - password
                   - password_confirmation
+                  - admin
               required:
               - user
   "/login":
@@ -167,6 +362,7 @@ paths:
       summary: Create a session
       tags:
       - Sessions
+      security: []
       parameters: []
       responses:
         '200':
@@ -224,6 +420,71 @@ paths:
               required:
               - email
               - password
+  "/users/{user_id}/wallets":
+    get:
+      summary: Get user wallets
+      tags:
+      - Wallets
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: user_id
+        in: path
+        description: User id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Found wallets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    currency:
+                      type: string
+                    balance:
+                      type: number
+                  required:
+                  - id
+                  - currency
+                  - balance
+        '401':
+          description: Not authorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+components:
+  securitySchemes:
+    bearer_auth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Enter token: Bearer <token>'
+security:
+- bearer_auth: []
 servers:
 - url: http://localhost:3000
 - url: https://mr-peanutbutter-app-35d05975bacd.herokuapp.com/
