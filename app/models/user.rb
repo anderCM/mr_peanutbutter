@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
   # Associations
   has_many :auth_tokens, dependent: :destroy
+  has_many :wallets, dependent: :destroy
+  has_many :exchanges, dependent: :destroy
 
   # Attributes
   attr_accessor :login

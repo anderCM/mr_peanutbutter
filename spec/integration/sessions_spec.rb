@@ -6,6 +6,7 @@ RSpec.describe 'Sessions API', type: :request, swagger_doc: 'v1/swagger.yaml' do
       tags 'Sessions'
       consumes 'application/json'
       produces 'application/json'
+      security []
       
       parameter name: :credentials, in: :body, schema: {
         type: :object,

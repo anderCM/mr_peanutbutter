@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
     if user.save
       auth_token_service = AuthTokenService.new(user).generate_tokens
       user.current_auth_token = auth_token_service
+      WelcomeUserService.new(user).process
 
       render json: CreatedUserSerializer.new(user).as_json, status: :created
     else
