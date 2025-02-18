@@ -9,7 +9,13 @@ paths:
       summary: Creates an exchange transaction
       tags:
       - Exchanges
-      parameters: []
+      parameters:
+      - name: user_id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Exchange transaction created
@@ -75,6 +81,85 @@ paths:
               - amount
               - sending_currency
               - receiving_currency
+  "/users/{user_id}/exchanges/":
+    get:
+      summary: Retrieves a specific exchange
+      tags:
+      - Exchanges
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Exchange found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  exchange_type:
+                    type: string
+                  status:
+                    type: string
+                required:
+                - id
+                - exchange_type
+                - status
+        '404':
+          description: Exchange not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/users/{user_id}/exchanges/{id}":
+    get:
+      summary: Lists all exchanges for a user
+      tags:
+      - Exchanges
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Exchange ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Exchanges retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    exchange_type:
+                      type: string
+                    status:
+                      type: string
+                  required:
+                  - id
+                  - exchange_type
+                  - status
   "/prices":
     get:
       summary: Get crypto prices (only BTC for the moment)

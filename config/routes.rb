@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   resources :users do
     resources :wallets, only: [:index, :show]
     post 'exchange', to: 'exchanges#create'
+    resources :exchanges, only: [:index, :show]
   end
 end

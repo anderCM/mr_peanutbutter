@@ -10,8 +10,17 @@ RSpec.describe ExchangesController, type: :controller do
       receiving_currency: "bitcoin"
     }
   end
-
   let(:service_double) { instance_double(Exchanges::ExchangesService) }
+
+  let(:normalize) do
+    lambda do |hash|
+      hash.transform_keys(&:to_s).tap do |h|
+        h["amount_received"] = h["amount_received"].to_f
+        h["amount_sent"]     = h["amount_sent"].to_f
+        h["exchange_rate"]   = h["exchange_rate"].to_f
+      end
+    end
+  end
 
   before do
     allow(controller).to receive(:current_user).and_return(user)
@@ -69,6 +78,63 @@ RSpec.describe ExchangesController, type: :controller do
         json = JSON.parse(response.body)
         expect(json["error"]).to eq("Error occurred")
         expect(json["code"]).to eq(422)
+      end
+    end
+  end
+
+  describe "GET #index" do
+    before do
+      create_list(:exchange, 2, user: user)
+      request.headers['Authorization'] = "Bearer #{auth_token.token}"
+    end
+
+    it "renders a list of exchanges" do
+      get :index, params: { user_id: user.id }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      json = JSON.parse(response.body)
+      expect(json).to be_an(Array)
+      expect(json.size).to eq(2)
+
+      expected = ActiveModelSerializers::SerializableResource.new(
+        user.exchanges, each_serializer: ExchangeSerializer
+      ).as_json.map(&normalize)
+      actual = json.map { |ex| normalize.call(ex) }
+      expect(actual).to eq(expected)
+    end
+  end
+
+  describe "GET #show" do
+    context "when the exchange exists" do
+      let!(:exchange) { create(:exchange, user: user) }
+      before do
+        request.headers['Authorization'] = "Bearer #{auth_token.token}"
+      end
+
+      it "returns the exchange data with status ok" do
+        get :show, params: { user_id: user.id, id: exchange.id }, as: :json
+
+        expect(response).to have_http_status(:ok)
+        json = JSON.parse(response.body)
+        expected = ActiveModelSerializers::SerializableResource.new(
+          exchange, serializer: ExchangeSerializer
+        ).as_json
+
+        expect(normalize.call(json)).to eq(normalize.call(expected))
+      end
+    end
+
+    context "when the exchange does not exist" do
+      before do
+        request.headers['Authorization'] = "Bearer #{auth_token.token}"
+      end
+
+      it "returns a 404 error" do
+        get :show, params: { user_id: user.id, id: 99999 }, as: :json
+
+        expect(response).to have_http_status(:not_found)
+        json = JSON.parse(response.body)
+        expect(json["error"]).to eq("Exchange not found")
       end
     end
   end
