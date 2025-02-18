@@ -40,4 +40,8 @@ class ApplicationController < ActionController::API
   def render_unauthorized(message)
     render json: { error: message }, status: :unauthorized and return
   end
+
+  def current_user
+    @current_user
+  end
 end
