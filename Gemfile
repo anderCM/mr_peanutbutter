@@ -38,7 +38,7 @@ gem "rswag-specs"
 # Authentication
 gem "devise", '~> 4.9', ">= 4.9.4"
 gem "devise_token_auth", "~> 1.2", ">= 1.2.5"
-gem "omniauth", "~> 2.1", ">= 2.1.2"
+gem "omniauth", "~> 2.1"
 
 # Serializer
 gem "active_model_serializers", "~> 0.10.15"
